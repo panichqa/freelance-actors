@@ -8,8 +8,8 @@ class Actor(AbstractUser):
     bio = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Actor'
-        verbose_name_plural = 'Actors'
+        verbose_name = "Actor"
+        verbose_name_plural = "Actors"
 
     def __str__(self):
         return self.username
