@@ -6,7 +6,6 @@ def index(request):
     num_actors = Actor.objects.count()
     num_agencies = Agency.objects.count()
     num_characters = Character.objects.count()
-    num_actor_agencies = ActorAgency.objects.count()
 
     num_visits = request.session.get("num_visits", 0)
     request.session["num_visits"] = num_visits + 1
