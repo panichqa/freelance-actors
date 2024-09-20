@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1> Characters list </h1>
+  {%  if characters_list %}
+    <ul>
+      {% for character in characters_list %}
+        <li> <a href="http://localhost:8000/characters/{{ character.id }}">{{ character.name }}</a></li>
+      {% endfor %}
+    </ul>
+      {% else %}
+      <p> There are no Characters </p>
+  {% endif %}
+      {% include "includes/pagination.html" %}
+{% endblock %}

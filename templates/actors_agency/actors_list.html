@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1> Actors list </h1>
+  {%  if actors_list %}
+    <ul>
+      {% for actor in actors_list %}
+        <li> <a href="http://localhost:8000/actors/{{ actor.id }}">{{ actor.username }}</a></li>
+      {% endfor %}
+    </ul>
+      {% else %}
+      <p> There are no Actors </p>
+  {% endif %}
+      {% include "includes/pagination.html" %}
+{% endblock %}

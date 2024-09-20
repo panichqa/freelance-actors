@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1> Agency list </h1>
+  {%  if agency_list %}
+    <ul>
+      {% for agency in agency_list %}
+        <li> <a href="http://localhost:8000/agencies/{{ agency.id }}">{{ agency.name }}</a></li>
+      {% endfor %}
+    </ul>
+      {% else %}
+      <p> There are no Agency </p>
+  {% endif %}
+      {% include "includes/pagination.html" %}
+{% endblock %}
