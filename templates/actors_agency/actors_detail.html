@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1> Actor: {{ actor.username }}  </h1>
+    <p> <strong> Name: </strong>{{ actor.first_name }} </p>
+    <p> <strong> Last name: </strong>{{ actor.last_name }} </p>
+    <p> <strong> Gender: </strong>{{ actor.gender }} </p>
+    <p> <strong> bio: </strong>{{ actor.bio }} </p>
+    
+{% endblock %}
