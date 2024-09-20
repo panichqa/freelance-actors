@@ -1,0 +1,15 @@
+.pagination .page-link {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #6c757d;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #e2e6ea;
+    color: #495057;
+    border: 2px solid #495057;
+}
+
+.pagination .page-link:hover {
+    background-color: #e2e6ea;
+}
