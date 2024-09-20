@@ -6,36 +6,37 @@
     <title>{% block title %}Freelance Actors{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #495057;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <a class="navbar-brand" href="{% url 'actors_agency:index' %}">Freelance Actors</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'actors_agency:index' %}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Actors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Agencies</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include "includes/navbar.html" %}
     </header>
 
-    <main class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </main>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3">
+                {% include 'includes/sidebar.html' %}
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
 
     <footer class="footer bg-light py-3 mt-5">
         <div class="container text-center">
