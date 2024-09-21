@@ -2,6 +2,7 @@
 
 {% block content %}
   <h1>Character: {{ character.name }}</h1>
-  <p>Gender: {{ character.gender}}</p>
+  <p>Gender: {{ character.gender }}</p>
   <p>Description: {{ character.description }}</p>
+  <p>Agency: <a href="{% url 'actors_agency:agency-detail' character.agency.id %}">{{ character.agency.name }}</a></p>
 {% endblock %}
