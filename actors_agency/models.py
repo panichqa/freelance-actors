@@ -31,10 +31,10 @@ class Character(models.Model):
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=10)
     description = models.TextField(blank=True, null=True)
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, default=2)
 
     def __str__(self):
         return self.name
-
 
 class ActorAgency(models.Model):
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
