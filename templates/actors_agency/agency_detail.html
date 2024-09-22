@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Agency: {{ agency.name }}</h1>
-  <p>City: {{ agency.city }}</p>
-  <p>Description: {{ agency.description }}</p>
+  <h1>{{ agency.name }}</h1>
+
+  <p><strong>City:</strong> {{ agency.city }}</p>
+  {% if agency.description %}
+    <p><strong>Detail:</strong> {{ agency.description }}</p>
+  {% endif %}
+
+  <h2>Characters:</h2>
+  <ul>
+    {% for character in characters %}
+      <li>
+        <a href="{% url 'actors_agency:character-detail' pk=character.pk %}">{{ character.name }}</a>
+      </li>
+    {% empty %}
+      <li>No characters assigned to this agency.</li>
+    {% endfor %}
+  </ul>
+
+  <div>
+    <a href="{% url 'actors_agency:character-create' %}?agency_id={{ agency.pk }}" class="btn btn-custom">Create Character</a>
+  </div>
 {% endblock %}

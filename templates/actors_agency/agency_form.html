@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} Agency</h1>
+  <h1>{{ agency_form.instance.pk|yesno:"Update,Create" }} Agency</h1>
   <form action="" method="post" novalidate>
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ agency_form|crispy }}
+
     <input type="submit" value="Submit" class="btn btn-custom">
   </form>
 {% endblock %}
