@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,29 @@
     <title>{% block title %}Freelance Actors{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container-fluid {
+            min-height: calc(100vh - 56px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
         a {
             color: #6c757d;
             text-decoration: none;
@@ -40,7 +63,7 @@
 
     <footer class="footer bg-light py-3 mt-5">
         <div class="container text-center">
-            <p>&copy; 2024 Freelance Actors</p>
+            <p>&copy; 2024 Freelance Actors by panichqa</p>
         </div>
     </footer>
 
