@@ -1,28 +1,40 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-  <h1>Actors List</h1>
-  <div class="mt-3">
+<h1>Actors List</h1>
+
+<form method="get" action="{% url 'actors_agency:actor-list' %}" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔎">
+</form>
+
+<div class="mt-3">
     <a href="{% url 'actors_agency:actor-create' %}" class="btn btn-custom">Create Actor</a>
-  </div>
-  {% if actor_list %}
+</div>
+
+{% if actor_list %}
     <ul class="list-group mt-3">
-      {% for actor in actor_list %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span>
-            <a href="http://localhost:8000/actors/{{ actor.id }}">{{ actor.username }}</a>
-          </span>
-          <div>
-            <a href="{% url 'actors_agency:actor-update' pk=actor.pk %}" class="btn btn-warning btn-sm mr-2">Edit</a>
-            <a href="{% url 'actors_agency:actor-delete' pk=actor.pk %}" class="btn btn-danger btn-sm">Delete</a>
-          </div>
-        </li>
-      {% endfor %}
+        {% for actor in actor_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    <a href="{% url 'actors_agency:actor-detail' pk=actor.pk %}">
+                        {{ actor.username }}{% if actor.username == request.user.username %} (me){% endif %}
+                    </a>
+                </span>
+                <div>
+                    <a href="{% url 'actors_agency:actor-update' pk=actor.pk %}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                    <a href="{% url 'actors_agency:actor-delete' pk=actor.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </li>
+        {% endfor %}
     </ul>
-  {% else %}
-    <p>There are no Actors.</p>
-  {% endif %}
-  <div class="mt-4">
+{% else %}
+    <p>No actors found.</p>
+{% endif %}
+
+<div class="mt-4">
     {% include "includes/pagination.html" %}
-  </div>
+</div>
 {% endblock %}

@@ -1,10 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1> Actor: {{ actor.username }}  </h1>
-    <p> <strong> Name: </strong>{{ actor.first_name }} </p>
-    <p> <strong> Last name: </strong>{{ actor.last_name }} </p>
-    <p> <strong> Gender: </strong>{{ actor.gender }} </p>
-    <p> <strong> bio: </strong>{{ actor.bio }} </p>
-    
+  <h1>Actor: {{ actor.username }}</h1>
+  <p><strong>Name:</strong> {{ actor.first_name }}</p>
+  <p><strong>Last name:</strong> {{ actor.last_name }}</p>
+  <p><strong>Gender:</strong> {{ actor.gender }}</p>
+  <p><strong>Bio:</strong> {{ actor.bio }}</p>
+
+  <h3>Current Booked Characters</h3>
+  {% if current_bookings %}
+    <ul>
+      {% for booking in current_bookings %}
+        <li>
+          <a href="{% url 'actors_agency:character-detail' booking.character.id %}">{{ booking.character.name }}</a>
+          (Agency: <a href="{% url 'actors_agency:agency-detail' booking.character.agency.id %}">{{ booking.character.agency.name }}</a>)
+          <!-- Додати кнопку для видалення бронювання -->
+          <form action="{% url 'actors_agency:delete-booking' booking.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Booking</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>This actor has no current bookings.</p>
+  {% endif %}
+
+  <h3>Past Booked Characters</h3>
+  {% if past_bookings %}
+    <ul>
+      {% for booking in past_bookings %}
+        <li>
+          <a href="{% url 'actors_agency:character-detail' booking.character.id %}">{{ booking.character.name }}</a>
+          (Agency: <a href="{% url 'actors_agency:agency-detail' booking.character.agency.id %}">{{ booking.character.agency.name }}</a>)
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>This actor has no past bookings.</p>
+  {% endif %}
 {% endblock %}
