@@ -13,3 +13,43 @@
 .pagination .page-link:hover {
     background-color: #e2e6ea;
 }
+
+.btn-custom {
+    background-color:transparent;
+    color: black;
+    border: 2px solid #9FB7B5;
+}
+
+.btn-custom:hover {
+    background-color: #F1F9F5;
+}
+
+.btn-warning {
+    background-color: #E7E1EA;
+    color: black;
+    border: 2px solid #DFDAE2;
+}
+
+.btn-warning:hover {
+    background-color: #E3DECF; /
+}
+
+.btn-danger {
+    background-color: transparent;
+    color: #925D5D;
+    border: 2px solid #925D5D;
+}
+
+.btn-danger:hover {
+    background-color: #D6A4A4;
+}
+
+.btn-custom {
+    background-color: transparent;
+    color: #564861;
+    border: 2px solid #BBB2C2;
+}
+
+.btn-custom:hover {
+    background-color: #DFDAE2;
+}
