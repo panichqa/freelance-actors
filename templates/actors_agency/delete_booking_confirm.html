@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Are you sure you want to delete this booking?</h1>
+  <p><strong>Character:</strong> {{ booking.character.name }}</p>
+  <p><strong>Agency:</strong> {{ booking.character.agency.name }}</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a href="{% url 'actors_agency:actor-detail' booking.actor.id %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
