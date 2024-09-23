@@ -3,6 +3,8 @@ This is a Django web application designed for freelance actors and event agencie
 
 Features User authentication (Login, Logout, Registration). Actors can update their profiles and choose characters. Agencies can manage characters and actors. Agencies and characters have detailed view pages. CRUD operations for agencies and characters.
 
+https://freelance-actors-yg0v.onrender.com
+
 How to run the project
 
 Clone the repository:
@@ -27,8 +29,8 @@ Open a browser and go to http://127.0.0.1:8000/.
 Login to test the site:
 Use the following test credentials to log in:
 For accessing Django admin, use these credentials:
-Username: ActorUser
-Password: asdf1234qwer 
+Username: admin
+Password: U1s2e3r4 
 
 Test functionality
 Agencies: Create and manage agencies.
