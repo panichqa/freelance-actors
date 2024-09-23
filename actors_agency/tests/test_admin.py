@@ -3,6 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from actors_agency.models import Actor, Agency, Character
 
+
 class AdminTestCase(TestCase):
     def setUp(self) -> None:
         self.client = Client()
