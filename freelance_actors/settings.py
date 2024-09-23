@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +47,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,6 +88,11 @@ DATABASES = {
     }
 }
 
+db_from_end = dj_database_url.config(conn_max_age=500)
+
+DATABASES["default"].update(db_from_end)
+
+DATABASE_URL = "postgresql://freelance_actors_owner:2URAzOJQ8nLM@ep-shrill-recipe-a224yim4.eu-central-1.aws.neon.tech/freelance_actors?sslmode=require"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -122,6 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+STATIC_ROOT = "staticfiles/"
+
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
@@ -136,7 +146,9 @@ LOGIN_REDIRECT_URL = "/"
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 SESSION_COOKIE_AGE = 1209600
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
