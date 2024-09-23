@@ -1,25 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ agency.name }}</h1>
+  <div class="container mt-5">
+    <div class="card shadow-sm" style="border-color: #d3d3d3;">
+      <div class="card-header text-white" style="background-color: #c1cbd6;">
+        <h1 class="mb-0">{{ agency.name }}</h1>
+      </div>
+      <div class="card-body" style="background-color: #f8f9fa;">
+        <p><strong>City:</strong> {{ agency.city }}</p>
+        {% if agency.description %}
+          <p><strong>Detail:</strong> {{ agency.description }}</p>
+        {% endif %}
+      </div>
+    </div>
 
-  <p><strong>City:</strong> {{ agency.city }}</p>
-  {% if agency.description %}
-    <p><strong>Detail:</strong> {{ agency.description }}</p>
-  {% endif %}
+    <!-- Список персонажів, що належать до агенції -->
+    <div class="mt-4">
+      <h3>Characters Assigned to this Agency</h3>
+      {% if characters %}
+        <ul class="list-group">
+          {% for character in characters %}
+            <li class="list-group-item" style="background-color: #f8f9fa;">
+              <a href="{% url 'actors_agency:character-detail' pk=character.pk %}" style="color: #343a40;">{{ character.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <!-- Стиль для повідомлення, коли немає персонажів -->
+        <p class="list-group-item text-muted" style="background-color: #f8f9fa;">No characters assigned to this agency.</p>
+      {% endif %}
+    </div>
 
-  <h2>Characters:</h2>
-  <ul>
-    {% for character in characters %}
-      <li>
-        <a href="{% url 'actors_agency:character-detail' pk=character.pk %}">{{ character.name }}</a>
-      </li>
-    {% empty %}
-      <li>No characters assigned to this agency.</li>
-    {% endfor %}
-  </ul>
-
-  <div>
-    <a href="{% url 'actors_agency:character-create' %}?agency_id={{ agency.pk }}" class="btn btn-custom">Create Character</a>
+    <!-- Кнопка створення персонажа -->
+    <div class="mt-4">
+      <a href="{% url 'actors_agency:character-create' %}?agency_id={{ agency.pk }}" class="btn btn-custom">Create Character</a>
+    </div>
   </div>
 {% endblock %}

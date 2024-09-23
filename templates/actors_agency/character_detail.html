@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Character: {{ character.name }}</h1>
-  <p>Gender: {{ character.gender }}</p>
-  <p>Description: {{ character.description }}</p>
-  <p>Agency: <a href="{% url 'actors_agency:agency-detail' character.agency.id %}">{{ character.agency.name }}</a></p>
+  <div class="container mt-5">
+    <div class="card shadow-sm" style="border-color: #d3d3d3;">
+      <div class="card-header text-white" style="background-color: #c1cbd6;">
+        <h1 class="mb-0">Character: {{ character.name }}</h1>
+      </div>
+      <div class="card-body" style="background-color: #f8f9fa;">
+        <p><strong>Gender:</strong> {{ character.gender }}</p>
+        <p><strong>Description:</strong> {{ character.description }}</p>
+        <p><strong>Agency:</strong> <a href="{% url 'actors_agency:agency-detail' character.agency.id %}" style="color: #343a40;">{{ character.agency.name }}</a></p>
 
-  <!-- Booking button -->
-  <form action="{% url 'actors_agency:book-character' character.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" 
-            class="btn btn-custom"
-            {% if actor_is_booked or character_is_booked or is_different_gender %}
-            disabled
-            {% endif %}>
-      Book Character
-    </button>
-  </form>
+        <!-- Booking button -->
+        <form action="{% url 'actors_agency:book-character' character.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" 
+                  class="btn btn-custom"
+                  {% if actor_is_booked or character_is_booked or is_different_gender %}
+                  disabled
+                  {% endif %}>
+            Book Character
+          </button>
+        </form>
 
-  <!-- Error messages -->
-  <div class="mt-3">
-    {% if is_different_gender %}
-      <p class="text-danger">Error: You cannot book this character because their gender does not match yours.</p>
-    {% endif %}
-    {% if actor_is_booked %}
-      <p class="text-danger">Error: You cannot book this character because you already have another character booked. Please release your current character before booking a new one.</p>
-    {% endif %}
-    {% if character_is_booked %}
-      <p class="text-danger">Error: This character is already booked by another actor.</p>
-    {% endif %}
+        <!-- Error messages -->
+        <div class="mt-3">
+          {% if is_different_gender %}
+            <p class="text-danger">Error: You cannot book this character because their gender does not match yours.</p>
+          {% endif %}
+          {% if actor_is_booked %}
+            <p class="text-danger">Error: You cannot book this character because you already have another character booked. Please release your current character before booking a new one.</p>
+          {% endif %}
+          {% if character_is_booked %}
+            <p class="text-danger">Error: This character is already booked by another actor.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
