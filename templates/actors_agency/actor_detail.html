@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="card shadow-sm" style="border-color: #d3d3d3;">
+      <div class="card-header text-white" style="background-color: #c1cbd6;">
+        <h1 class="mb-0">Actor: {{ actor.username }}</h1>
+      </div>
+      <div class="card-body" style="background-color: #f8f9fa;">
+        <p><strong>Name:</strong> {{ actor.first_name }}</p>
+        <p><strong>Last name:</strong> {{ actor.last_name }}</p>
+        <p><strong>Gender:</strong> {{ actor.gender }}</p>
+        <p><strong>Bio:</strong> {{ actor.bio }}</p>
+      </div>
+    </div>
+
+    <!-- Список поточних бронювань -->
+    <div class="mt-4">
+      <h3>Current Booked Characters</h3>
+      {% if current_bookings %}
+        <ul class="list-group">
+          {% for booking in current_bookings %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #e9ecef;">
+              <span>
+                <a href="{% url 'actors_agency:character-detail' booking.character.id %}" style="color: #343a40;">{{ booking.character.name }}</a>
+                <small>(Agency: <a href="{% url 'actors_agency:agency-detail' booking.character.agency.id %}" style="color: #343a40;">{{ booking.character.agency.name }}</a>)</small>
+              </span>
+              <form action="{% url 'actors_agency:delete-booking' booking.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Delete Booking</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <!-- Стиль для повідомлення, коли немає поточних персонажів -->
+        <p class="list-group-item text-muted" style="background-color: #e9ecef;">This actor has no current bookings.</p>
+      {% endif %}
+    </div>
+
+    <!-- Список минулих бронювань -->
+    <div class="mt-4">
+      <h3>Past Booked Characters</h3>
+      {% if past_bookings %}
+        <ul class="list-group">
+          {% for booking in past_bookings %}
+            <li class="list-group-item" style="background-color: #f8f9fa;">
+              <a href="{% url 'actors_agency:character-detail' booking.character.id %}" style="color: #343a40;">{{ booking.character.name }}</a>
+              <small>(Agency: <a href="{% url 'actors_agency:agency-detail' booking.character.agency.id %}" style="color: #343a40;">{{ booking.character.agency.name }}</a>)</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <!-- Стиль для повідомлення, коли немає минулих персонажів -->
+        <p class="list-group-item text-muted" style="background-color: #f8f9fa;">This actor has no past bookings.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

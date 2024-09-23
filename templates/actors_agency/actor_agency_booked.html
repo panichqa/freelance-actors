@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Booking Status for Character: {{ character.name }}</h1>
+  <p>Agency: <a href="{% url 'actors_agency:agency-detail' character.agency.id %}">{{ character.agency.name }}</a></p>
+
+  {% if is_booked %}
+    <div class="alert alert-success">
+      <strong>Success!</strong> You have successfully booked the character: {{ character.name }}.
+    </div>
+  {% else %}
+    <div class="alert alert-danger">
+      <strong>Error!</strong>
+      {% if is_different_gender %}
+        You cannot book this character because their gender does not match yours.
+      {% elif actor_is_booked %}
+        You cannot book this character because you already have another character booked. Please release your current character before booking a new one.
+      {% elif character_is_booked %}
+        This character is already booked by another actor.
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <a href="{% url 'actors_agency:characters-list' %}" class="btn btn-custom">Back to Character List</a>
+{% endblock %}

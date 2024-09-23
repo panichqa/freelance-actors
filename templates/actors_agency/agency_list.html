@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Agencies List</h1>
+
+<form method="get" action="{% url 'actors_agency:agency-list' %}" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔎">
+</form>
+
+
+{#<div class="mt-3">#}
+{#    <a href="{% url 'actors_agency:agency-create' %}" class="btn btn-custom">Create Agency</a>#}
+{#</div>#}
+<div class="mt-3">
+    <form action="{% url 'actors_agency:agency-create' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-custom">Create Agency</button>
+    </form>
+</div>
+
+
+
+{% if agency_list %}
+    <ul class="list-group mt-3">
+        {% for agency in agency_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    <a href="{% url 'actors_agency:agency-detail' pk=agency.id %}">{{ agency.name }}</a>
+                </span>
+                <div>
+                    <a href="{% url 'actors_agency:agency-update' pk=agency.pk %}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                    <a href="{% url 'actors_agency:agency-delete' pk=agency.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No agencies found.</p>
+{% endif %}
+
+<div class="mt-4">
+    {% include "includes/pagination.html" %}
+</div>
+{% endblock %}
