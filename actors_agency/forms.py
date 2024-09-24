@@ -5,9 +5,16 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+GENDER_CHOICES = [
+    ('male', 'Male'),
+    ('female', 'Female'),
+]
+
 
 class ActorForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+
 
     class Meta:
         model = Actor
@@ -22,11 +29,10 @@ class ActorForm(forms.ModelForm):
 
     def save(self, commit=True):
         actor = super().save(commit=False)
-        actor.set_password(self.cleaned_data['password'])  # Хешує пароль
+        actor.set_password(self.cleaned_data['password'])
         if commit:
             actor.save()
         return actor
-
 
 
 class CharacterForm(forms.ModelForm):
@@ -35,6 +41,7 @@ class CharacterForm(forms.ModelForm):
         widget=forms.Select,
         required=True,
     )
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
 
     class Meta:
         model = Character
