@@ -23,10 +23,12 @@
                         {{ actor.username }}{% if actor.username == request.user.username %} (me){% endif %}
                     </a>
                 </span>
+                {% if user.is_staff or actor.id == request.user.id %}
                 <div>
                     <a href="{% url 'actors_agency:actor-update' pk=actor.pk %}" class="btn btn-warning btn-sm mr-2">Edit</a>
                     <a href="{% url 'actors_agency:actor-delete' pk=actor.pk %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
