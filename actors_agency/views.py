@@ -121,7 +121,7 @@ def character_create_view(request):
         form = CharacterForm(request.POST)
         if form.is_valid():
             character = form.save(commit=False)
-            agency_id = request.GET.get('agency_id')
+            agency_id = request.GET.get("agency_id")
             if agency_id:
                 agency = get_object_or_404(Agency, pk=agency_id)
                 character.agency = agency
