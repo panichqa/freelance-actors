@@ -39,5 +39,4 @@ Actors: Actors can log in and update their profiles, select characters based on 
 Running Tests
 To run the tests, use the following command:
 `python manage.py test`
-<img width="1422" alt="image" src="https://github.com/user-attachments/assets/4a478350-94f4-4771-8162-0fbf647ddf44">
-![img.png](img.png)
+
