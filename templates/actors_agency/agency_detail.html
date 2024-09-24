@@ -32,8 +32,10 @@
     </div>
 
     <!-- Кнопка створення персонажа -->
+      {% if user.is_staff %}
     <div class="mt-4">
       <a href="{% url 'actors_agency:character-create' %}?agency_id={{ agency.pk }}" class="btn btn-custom">Create Character</a>
     </div>
+      {% endif %}
   </div>
 {% endblock %}
