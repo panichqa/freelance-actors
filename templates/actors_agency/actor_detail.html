@@ -25,10 +25,12 @@
                 <a href="{% url 'actors_agency:character-detail' booking.character.id %}" style="color: #343a40;">{{ booking.character.name }}</a>
                 <small>(Agency: <a href="{% url 'actors_agency:agency-detail' booking.character.agency.id %}" style="color: #343a40;">{{ booking.character.agency.name }}</a>)</small>
               </span>
+                {% if user.is_staff or actor.id == request.user.id %}
               <form action="{% url 'actors_agency:delete-booking' booking.id %}" method="POST" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-sm btn-danger">Delete Booking</button>
               </form>
+            {% endif %}
             </li>
           {% endfor %}
         </ul>
