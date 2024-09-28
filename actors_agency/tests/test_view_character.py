@@ -24,7 +24,7 @@ class CharacterViewTests(TestCase):
 
 
     def test_character_list_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("actors_agency:characters-list"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "actors_agency/characters_list.html")
@@ -32,7 +32,7 @@ class CharacterViewTests(TestCase):
 
 
     def test_character_detail_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("actors_agency:character-detail", kwargs={"pk": self.character.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "actors_agency/character_detail.html")
@@ -40,7 +40,7 @@ class CharacterViewTests(TestCase):
 
 
     def test_character_create_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:character-create"), {
             "name": "New Character",
             "gender": "F",
@@ -52,7 +52,7 @@ class CharacterViewTests(TestCase):
 
 
     def test_character_update_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:character-update", kwargs={"pk": self.character.pk}), {
             "name": "Updated Character",
             "gender": "M",
@@ -65,7 +65,7 @@ class CharacterViewTests(TestCase):
 
 
     def test_character_delete_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:character-delete", kwargs={"pk": self.character.pk}))
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Character.objects.filter(pk=self.character.pk).exists())

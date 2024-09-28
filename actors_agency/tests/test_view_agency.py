@@ -19,7 +19,7 @@ class AgencyViewTests(TestCase):
 
 
     def test_agency_list_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("actors_agency:agency-list"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "actors_agency/agency_list.html")
@@ -27,7 +27,7 @@ class AgencyViewTests(TestCase):
 
 
     def test_agency_detail_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("actors_agency:agency-detail", kwargs={"pk": self.agency.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "actors_agency/agency_detail.html")
@@ -35,7 +35,7 @@ class AgencyViewTests(TestCase):
 
 
     def test_agency_create_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:agency-create"), {
             "name": "New Agency",
             "city": "New City",
@@ -46,7 +46,7 @@ class AgencyViewTests(TestCase):
 
 
     def test_agency_update_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:agency-update", kwargs={"pk": self.agency.pk}), {
             "name": "Updated Agency",
             "city": "Updated City",
@@ -58,7 +58,7 @@ class AgencyViewTests(TestCase):
 
 
     def test_agency_delete_view(self):
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         response = self.client.post(reverse("actors_agency:agency-delete", kwargs={"pk": self.agency.pk}))
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Agency.objects.filter(pk=self.agency.pk).exists())

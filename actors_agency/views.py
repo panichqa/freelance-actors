@@ -87,14 +87,14 @@ class CharacterListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        query = self.request.GET.get('character')
+        query = self.request.GET.get("character")
         if query:
             return Character.objects.filter(name__icontains=query).order_by("name")
         return Character.objects.all().order_by("name")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = CharacterSearchForm(self.request.GET)
+        context["search_form"] = CharacterSearchForm(self.request.GET)
         return context
 
 def character_detail_view(request, pk):
@@ -160,21 +160,21 @@ class AgencyListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        query = self.request.GET.get('agency')
+        query = self.request.GET.get("agency")
         if query:
             return Agency.objects.filter(name__icontains=query).order_by("name")
         return Agency.objects.all().order_by("name")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = AgencySearchForm(self.request.GET)
+        context["search_form"] = AgencySearchForm(self.request.GET)
         return context
 
 def agency_detail_view(request, pk):
     agency = get_object_or_404(Agency, pk=pk)
-    return render(request, 'actors_agency/agency_detail.html', {
-        'agency': agency,
-        'characters': agency.characters.all(),
+    return render(request, "actors_agency/agency_detail.html", {
+        "agency": agency,
+        "characters": agency.characters.all(),
     })
 
 def agency_create_view(request):
@@ -186,7 +186,7 @@ def agency_create_view(request):
     else:
         agency_form = AgencyForm()
 
-    return render(request, "actors_agency/agency_form.html", {'agency_form': agency_form})
+    return render(request, "actors_agency/agency_form.html", {"agency_form": agency_form})
 
 def agency_update_view(request, pk):
     agency = get_object_or_404(Agency, pk=pk)
@@ -194,10 +194,10 @@ def agency_update_view(request, pk):
         form = AgencyForm(request.POST, instance=agency)
         if form.is_valid():
             form.save()
-            return redirect('actors_agency:agency-detail', pk=agency.pk)
+            return redirect("actors_agency:agency-detail", pk=agency.pk)
     else:
         form = AgencyForm(instance=agency)
-    return render(request, "actors_agency/agency_form.html", {'agency_form': form})
+    return render(request, "actors_agency/agency_form.html", {"agency_form": form})
 
 class AgencyDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Agency
@@ -238,6 +238,6 @@ def delete_booking(request, booking_id):
         booking.is_booked = False
         booking.save()
         messages.success(request, f"Booking for {booking.character.name} has been successfully canceled.")
-        return redirect('actors_agency:actor-detail', pk=booking.actor.id)
+        return redirect("actors_agency:actor-detail", pk=booking.actor.id)
 
-    return render(request, 'actors_agency/delete_booking_confirm.html', {'booking': booking})
+    return render(request, "actors_agency/delete_booking_confirm.html", {"booking": booking})

@@ -7,8 +7,8 @@ from actors_agency.models import Actor, Character, Agency
 User = get_user_model()
 
 GENDER_CHOICES = [
-    ('male', 'Male'),
-    ('female', 'Female'),
+    ("male", "Male"),
+    ("female", "Female"),
 ]
 
 
@@ -30,7 +30,7 @@ class ActorForm(forms.ModelForm):
 
     def save(self, commit=True):
         actor = super().save(commit=False)
-        actor.set_password(self.cleaned_data['password'])
+        actor.set_password(self.cleaned_data["password"])
         if commit:
             actor.save()
         return actor
@@ -46,7 +46,7 @@ class CharacterForm(forms.ModelForm):
 
     class Meta:
         model = Character
-        fields = ['name', 'gender', 'description', 'agency']
+        fields = ["name", "gender", "description", "agency"]
 
 
 class AgencyForm(forms.ModelForm):
