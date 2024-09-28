@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
+
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 
 class Actor(AbstractUser):
@@ -39,7 +41,7 @@ class Character(models.Model):
 
 
 class ActorAgency(models.Model):
-    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, related_name="actors")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="actor_agencies")
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name="agencies")
     character = models.ForeignKey(Character, on_delete=models.CASCADE, related_name="characters")
     is_booked = models.BooleanField(default=False)

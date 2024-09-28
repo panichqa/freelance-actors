@@ -23,5 +23,5 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(ActorAgency)
 class ActorAgencyAdmin(admin.ModelAdmin):
-    list_display = ('actor', 'character', 'agency', 'is_booked')
-    list_filter = ('is_booked',)
+    list_display = ("actor", "character", "agency", "is_booked")
+    list_filter = ("is_booked",)

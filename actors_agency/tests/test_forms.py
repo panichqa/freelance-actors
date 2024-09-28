@@ -29,7 +29,7 @@ class ActorFormTestCase(TestCase):
         }
         form = ActorForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertIn('username', form.errors)
+        self.assertIn("username", form.errors)
 
 
 class CharacterFormTestCase(TestCase):
@@ -57,7 +57,7 @@ class CharacterFormTestCase(TestCase):
         }
         form = CharacterForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertIn('name', form.errors)
+        self.assertIn("name", form.errors)
 
 
 class AgencyFormTestCase(TestCase):
@@ -80,4 +80,4 @@ class AgencyFormTestCase(TestCase):
         }
         form = AgencyForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertIn('name', form.errors)
+        self.assertIn("name", form.errors)
