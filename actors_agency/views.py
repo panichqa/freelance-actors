@@ -4,9 +4,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from django.db.models import Q
+
 from .models import Actor, Agency, Character, ActorAgency
 from .forms import ActorForm, AgencyForm, CharacterForm, ActorSearchForm, AgencySearchForm, CharacterSearchForm
-
 
 @login_required
 def index(request):
@@ -19,7 +20,6 @@ def index(request):
     request.session["num_visits"] = context["num_visits"]
     return render(request, "actors_agency/index.html", context)
 
-
 class ActorListView(LoginRequiredMixin, generic.ListView):
     model = Actor
     paginate_by = 4
@@ -27,21 +27,18 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
     template_name = "actors_agency/actor_list.html"
 
     def get_queryset(self):
-        queryset = Actor.objects.all()
         name = self.request.GET.get("actor", "")
-        if name:
-            queryset = queryset.filter(username__icontains=name)
-        current_user = self.request.user
-        self_me = queryset.filter(username=current_user.username)
-        other_actors = queryset.exclude(username=current_user.username)
-        return list(self_me) + list(other_actors)
+        queryset = super().get_queryset()
 
+        if name:
+            queryset = queryset.filter(Q(username__icontains=name) | Q(other_field__icontains=name))
+
+        return queryset.order_by('username')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = ActorSearchForm(initial={"actor": self.request.GET.get("actor", "")})
         return context
-
 
 def actors_detail_view(request, pk):
     actor = get_object_or_404(Actor, pk=pk)
@@ -55,13 +52,11 @@ def actors_detail_view(request, pk):
     }
     return render(request, "actors_agency/actor_detail.html", context)
 
-
 class ActorCreateView(LoginRequiredMixin, generic.CreateView):
     model = Actor
     form_class = ActorForm
     template_name = "actors_agency/actor_form.html"
     success_url = reverse_lazy("actors_agency:actor-list")
-
 
 class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Actor
@@ -91,7 +86,6 @@ class CharacterListView(LoginRequiredMixin, generic.ListView):
         context['search_form'] = CharacterSearchForm(self.request.GET)
         return context
 
-
 def character_detail_view(request, pk):
     character = get_object_or_404(Character, pk=pk)
     actor_id = request.user.id
@@ -99,7 +93,8 @@ def character_detail_view(request, pk):
     character_gender = character.gender
     actor_is_booked = is_actor_booked(actor_id)
     character_is_booked = is_character_booked(character.id)
-    is_different_gender =  actor_gender != character_gender
+    is_different_gender = actor_gender != character_gender
+
     return render(request, "actors_agency/character_detail.html", {
         "character": character,
         "agency": character.agency,
@@ -113,8 +108,6 @@ def is_actor_booked(actor_id: int) -> bool:
 
 def is_character_booked(character_id: int) -> bool:
     return ActorAgency.objects.filter(character_id=character_id, is_booked=True).exists()
-
-
 
 def character_create_view(request):
     if request.method == "POST":
@@ -166,7 +159,6 @@ class AgencyListView(LoginRequiredMixin, generic.ListView):
         context['search_form'] = AgencySearchForm(self.request.GET)
         return context
 
-
 def agency_detail_view(request, pk):
     agency = get_object_or_404(Agency, pk=pk)
     return render(request, 'actors_agency/agency_detail.html', {
@@ -201,7 +193,6 @@ class AgencyDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("actors_agency:agency-list")
     template_name = "actors_agency/agency_confirm_delete.html"
 
-
 def book_actor_agency_view(request, pk):
     character = get_object_or_404(Character, pk=pk)
     actor_id = request.user.id
@@ -209,26 +200,25 @@ def book_actor_agency_view(request, pk):
     character_gender = character.gender
     actor_is_booked = is_actor_booked(actor_id)
     character_is_booked = is_character_booked(character.id)
-    is_different_gender =  actor_gender != character_gender
-    is_booked = False
+    is_different_gender = actor_gender != character_gender
 
-    if not is_different_gender and not actor_is_booked and not character_is_booked:
-        is_booked = True
+    is_booked = not is_different_gender and not actor_is_booked and not character_is_booked
+    if is_booked:
         ActorAgency.objects.create(
             character=character,
             actor_id=actor_id,
             agency_id=character.agency_id,
-            is_booked=True
+            is_booked=is_booked
         )
         return render(request, "actors_agency/actor_agency_booked.html", {
-        "user": request.user.username,
-        "character": character,
-        "agency": character.agency,
-        "actor_is_booked": actor_is_booked,
-        "character_is_booked": character_is_booked,
-        "is_different_gender": is_different_gender,
-        "is_booked": is_booked
-    })
+            "user": request.user.username,
+            "character": character,
+            "agency": character.agency,
+            "actor_is_booked": actor_is_booked,
+            "character_is_booked": character_is_booked,
+            "is_different_gender": is_different_gender,
+            "is_booked": is_booked
+        })
 
 def delete_booking(request, booking_id):
     booking = get_object_or_404(ActorAgency, id=booking_id)

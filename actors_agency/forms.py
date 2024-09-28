@@ -1,6 +1,7 @@
 from django import forms
-from actors_agency.models import Actor, Character, Agency
 from django.contrib.auth import get_user_model
+
+from actors_agency.models import Actor, Character, Agency
 
 
 User = get_user_model()

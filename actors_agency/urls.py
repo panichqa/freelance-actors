@@ -1,10 +1,24 @@
 from django.urls import path
+
 from .views import (
-    index, actors_detail_view, ActorListView, CharacterListView,
-    AgencyListView, agency_detail_view, character_detail_view,
-    ActorCreateView, ActorUpdateView, ActorDeleteView,
-    character_create_view, character_update_view, CharacterDeleteView,
-    agency_create_view, agency_update_view, AgencyDeleteView, book_actor_agency_view, delete_booking
+    index,
+    actors_detail_view,
+    ActorListView,
+    CharacterListView,
+    AgencyListView,
+    agency_detail_view,
+    character_detail_view,
+    ActorCreateView,
+    ActorUpdateView,
+    ActorDeleteView,
+    character_create_view,
+    character_update_view,
+    CharacterDeleteView,
+    agency_create_view,
+    agency_update_view,
+    AgencyDeleteView,
+    book_actor_agency_view,
+    delete_booking
 )
 
 app_name = "actors_agency"

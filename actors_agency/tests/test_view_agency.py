@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
-from actors_agency.models import Agency
 from django.contrib.auth import get_user_model
+
+from actors_agency.models import Agency
+
 
 
 User = get_user_model()
