@@ -4,9 +4,9 @@ from django.urls import reverse
 
 
 class Actor(AbstractUser):
-    gender = models.CharField(max_length=10, blank=False, null=False)
-    bio = models.TextField(blank=True, null=True)
-    date_joined = models.DateTimeField(null=True, blank=True)
+    gender = models.CharField(max_length=10)
+    bio = models.TextField()
+    date_joined = models.DateTimeField()
 
     class Meta:
         verbose_name = "Actor"
@@ -39,9 +39,9 @@ class Character(models.Model):
 
 
 class ActorAgency(models.Model):
-    actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
-    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    actor = models.ForeignKey(Actor, on_delete=models.CASCADE, related_name="actors")
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name="agencies")
+    character = models.ForeignKey(Character, on_delete=models.CASCADE, related_name="characters")
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):

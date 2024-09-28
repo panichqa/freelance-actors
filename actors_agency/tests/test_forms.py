@@ -1,6 +1,6 @@
 from django.test import TestCase
+
 from actors_agency.forms import ActorForm, CharacterForm, AgencyForm
-from actors_agency.models import Actor, Character, Agency
 
 
 class ActorFormTestCase(TestCase):

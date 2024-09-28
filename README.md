@@ -1,7 +1,12 @@
 # freelance-actors
 This is a Django web application designed for freelance actors and event agencies to manage and assign characters (costumes) to actors. Agencies can manage characters, actors can choose costumes, and everything is integrated with user authentication.
 
-Features User authentication (Login, Logout, Registration). Actors can update their profiles and choose characters. Agencies can manage characters and actors. Agencies and characters have detailed view pages. CRUD operations for agencies and characters.
+Features User authentication (Login, Logout, Registration).
+Actors can update their profiles and choose characters.
+Agencies can manage characters and actors.
+Agencies and characters have detailed view pages. CRUD operations for agencies and characters.
+
+https://freelance-actors-yg0v.onrender.com
 
 How to run the project
 
@@ -26,9 +31,12 @@ Open a browser and go to http://127.0.0.1:8000/.
 
 Login to test the site:
 Use the following test credentials to log in:
+Username: Kishka-durishka
+Password: 123456789
+
 For accessing Django admin, use these credentials:
-Username: ActorUser
-Password: asdf1234qwer 
+Username: admin
+Password: U1s2e3r4 
 
 Test functionality
 Agencies: Create and manage agencies.
@@ -37,5 +45,4 @@ Actors: Actors can log in and update their profiles, select characters based on 
 Running Tests
 To run the tests, use the following command:
 `python manage.py test`
-<img width="1422" alt="image" src="https://github.com/user-attachments/assets/4a478350-94f4-4771-8162-0fbf647ddf44">
-![img.png](img.png)
+
