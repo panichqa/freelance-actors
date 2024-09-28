@@ -26,19 +26,30 @@ class ActorListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "actor_list"
     template_name = "actors_agency/actor_list.html"
 
-    def get_queryset(self):
-        name = self.request.GET.get("actor", "")
-        queryset = super().get_queryset()
+    class ActorListView(LoginRequiredMixin, generic.ListView):
+        model = Actor
+        paginate_by = 4
+        context_object_name = "actor_list"
+        template_name = "actors_agency/actor_list.html"
 
-        if name:
-            queryset = queryset.filter(Q(username__icontains=name) | Q(other_field__icontains=name))
+        def get_queryset(self):
+            name = self.request.GET.get("actor", "")
+            queryset = super().get_queryset()
+            if name:
+                queryset = queryset.filter(Q(username__icontains=name) | Q(other_field__icontains=name))
 
-        return queryset.order_by('username')
+            current_user = self.request.user
+            self_me = queryset.filter(username=current_user.username)
+            other_actors = queryset.exclude(username=current_user.username)
+
+            return list(self_me) + list(other_actors)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = ActorSearchForm(initial={"actor": self.request.GET.get("actor", "")})
+        context["current_username"] = self.request.user.username
         return context
+
 
 def actors_detail_view(request, pk):
     actor = get_object_or_404(Actor, pk=pk)
