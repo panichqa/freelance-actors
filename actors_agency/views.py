@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.db.models import Q
+from django.db.models import Q, Case, When, IntegerField
 
-from .models import Actor, Agency, Character, ActorAgency
-from .forms import ActorForm, AgencyForm, CharacterForm, ActorSearchForm, AgencySearchForm, CharacterSearchForm
+from actors_agency.models import Actor, Agency, Character, ActorAgency
+from actors_agency.forms import ActorForm, AgencyForm, CharacterForm, ActorSearchForm, AgencySearchForm, CharacterSearchForm
 
 @login_required
 def index(request):
@@ -20,29 +20,28 @@ def index(request):
     request.session["num_visits"] = context["num_visits"]
     return render(request, "actors_agency/index.html", context)
 
+
 class ActorListView(LoginRequiredMixin, generic.ListView):
     model = Actor
     paginate_by = 4
     context_object_name = "actor_list"
     template_name = "actors_agency/actor_list.html"
 
-    class ActorListView(LoginRequiredMixin, generic.ListView):
-        model = Actor
-        paginate_by = 4
-        context_object_name = "actor_list"
-        template_name = "actors_agency/actor_list.html"
+    def get_queryset(self):
+        name = self.request.GET.get("actor", "")
+        current_user = self.request.user
 
-        def get_queryset(self):
-            name = self.request.GET.get("actor", "")
-            queryset = super().get_queryset()
-            if name:
-                queryset = queryset.filter(Q(username__icontains=name) | Q(other_field__icontains=name))
+        queryset = super().get_queryset().filter(
+            Q(username__icontains=name) | Q(other_field__icontains=name) if name else Q()
+        ).annotate(
+            is_current_user=Case(
+                When(username=current_user.username, then=1),
+                default=0,
+                output_field=IntegerField(),
+            )
+        ).order_by("-is_current_user", "username")
 
-            current_user = self.request.user
-            self_me = queryset.filter(username=current_user.username)
-            other_actors = queryset.exclude(username=current_user.username)
-
-            return list(self_me) + list(other_actors)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

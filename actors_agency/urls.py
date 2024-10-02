@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (
+from actors_agency.views import (
     index,
     actors_detail_view,
     ActorListView,
