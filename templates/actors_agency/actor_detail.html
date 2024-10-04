@@ -14,7 +14,6 @@
       </div>
     </div>
 
-    <!-- Список поточних бронювань -->
     <div class="mt-4">
       <h3>Current Booked Characters</h3>
       {% if current_bookings %}
@@ -35,12 +34,10 @@
           {% endfor %}
         </ul>
       {% else %}
-        <!-- Стиль для повідомлення, коли немає поточних персонажів -->
         <p class="list-group-item text-muted" style="background-color: #e9ecef;">This actor has no current bookings.</p>
       {% endif %}
     </div>
 
-    <!-- Список минулих бронювань -->
     <div class="mt-4">
       <h3>Past Booked Characters</h3>
       {% if past_bookings %}
@@ -53,7 +50,6 @@
           {% endfor %}
         </ul>
       {% else %}
-        <!-- Стиль для повідомлення, коли немає минулих персонажів -->
         <p class="list-group-item text-muted" style="background-color: #f8f9fa;">This actor has no past bookings.</p>
       {% endif %}
     </div>
