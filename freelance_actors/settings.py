@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "_7oy@etx_zau&n-tq9h8jxchvyd@vm
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "freelance-actors-yg0v.onrender.com"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1" "freelance-actors-yg0v.onrender.com").split(",")
 
 
 
@@ -91,9 +91,10 @@ DATABASES = {
 
 db_from_end = dj_database_url.config(conn_max_age=500)
 
-DATABASES["default"].update(db_from_end)
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-DATABASE_URL = "postgresql://freelance_actors_owner:2URAzOJQ8nLM@ep-shrill-recipe-a224yim4.eu-central-1.aws.neon.tech/freelance_actors?sslmode=require"
+if DATABASE_URL:
+    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=500)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -144,6 +145,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "actors_agency.Actor"
 
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
+
 
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
