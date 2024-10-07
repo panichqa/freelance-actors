@@ -7,7 +7,14 @@ from django.views import generic
 from django.db.models import Q, Case, When, IntegerField
 
 from actors_agency.models import Actor, Agency, Character, ActorAgency
-from actors_agency.forms import ActorForm, AgencyForm, CharacterForm, ActorSearchForm, AgencySearchForm, CharacterSearchForm
+from actors_agency.forms import (
+    ActorForm,
+    AgencyForm,
+    CharacterForm,
+    ActorSearchForm,
+    AgencySearchForm,
+    CharacterSearchForm
+)
 
 @login_required
 def index(request):

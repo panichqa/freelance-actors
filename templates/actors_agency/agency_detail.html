@@ -14,7 +14,6 @@
       </div>
     </div>
 
-    <!-- Список персонажів, що належать до агенції -->
     <div class="mt-4">
       <h3>Characters Assigned to this Agency</h3>
       {% if characters %}
@@ -26,12 +25,10 @@
           {% endfor %}
         </ul>
       {% else %}
-        <!-- Стиль для повідомлення, коли немає персонажів -->
         <p class="list-group-item text-muted" style="background-color: #f8f9fa;">No characters assigned to this agency.</p>
       {% endif %}
     </div>
 
-    <!-- Кнопка створення персонажа -->
       {% if user.is_staff %}
     <div class="mt-4">
       <a href="{% url 'actors_agency:character-create' %}?agency_id={{ agency.pk }}" class="btn btn-custom">Create Character</a>

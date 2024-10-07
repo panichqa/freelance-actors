@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.forms import UserCreationForm
 from actors_agency.models import Actor, Character, Agency
 
 
@@ -12,10 +12,8 @@ GENDER_CHOICES = [
 ]
 
 
-class ActorForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+class ActorForm(UserCreationForm):
     gender = forms.ChoiceField(choices=GENDER_CHOICES)
-
 
     class Meta:
         model = Actor
@@ -23,17 +21,11 @@ class ActorForm(forms.ModelForm):
             "username",
             "first_name",
             "last_name",
-            "password",
             "gender",
             "bio",
+            "password1",
+            "password2",
         ]
-
-    def save(self, commit=True):
-        actor = super().save(commit=False)
-        actor.set_password(self.cleaned_data["password"])
-        if commit:
-            actor.save()
-        return actor
 
 
 class CharacterForm(forms.ModelForm):
@@ -55,40 +47,34 @@ class AgencyForm(forms.ModelForm):
         fields = ["name", "city", "description"]
 
 
-class ActorSearchForm(forms.Form):
-    actor = forms.CharField(
+class SearchForm(forms.Form):
+    search_query = forms.CharField(
         label="",
         max_length=100,
         required=False,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Search by actor"
+                "placeholder": "",
             }
         ),
     )
 
-
-class AgencySearchForm(forms.Form):
-    agency = forms.CharField(
-        label="",
-        max_length=100,
-        required=False,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by agency"
-            }
-        ),
-    )
+    def __init__(self, *args, placeholder=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if placeholder:
+            self.fields['search_query'].widget.attrs['placeholder'] = placeholder
 
 
-class CharacterSearchForm(forms.Form):
-    character = forms.CharField(
-        label="",
-        max_length=100,
-        required=False,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by character"
-            }
-        ),
-    )
+class ActorSearchForm(SearchForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, placeholder="Search by actor", **kwargs)
+
+
+class AgencySearchForm(SearchForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, placeholder="Search by agency", **kwargs)
+
+
+class CharacterSearchForm(SearchForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, placeholder="Search by character", **kwargs)
